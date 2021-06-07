@@ -14,7 +14,7 @@ Users are able to:
 1. Clone the repo locally
 2. Make sure you have the `bundle` gem installed.
 2. Run `bundle install` in your CLI
-3. Run `ruby contact_book.rb` in your CLI
+3. Run `ruby routes.rb` in your CLI
 4. Visit `http://localhost:4567` in your web browser
 5. If you need to reset the app (i.e. delete all information), please delete the associated cookie through your browser.
 
@@ -26,7 +26,8 @@ Login credentials include:
 }
 ```
 ### Tests
-Tests are found in the `test/contact_book_test.rb` file. They can be executed through `bundle exec ruby contact_book_test.rb`.
+Tests are found in the `test/` directory. There are two tests - one for the Sinatra routing (`routes_test.rb`), and one for the application logic itself (`app_test.rb`)
+They can be executed through `bundle exec ruby *_test.rb`, where `*` is the appropriate filename.
 
 ### Design Choices
 
