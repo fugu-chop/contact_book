@@ -38,8 +38,13 @@ class Book
 end
 
 class Contact
+  attr_reader :name, :phone_number, :address
+
   def initialize(name, phone_num, address)
     @contact = { name: name, phone_number: phone_num, address: address }
+    @name = name
+    @phone_number = phone_num
+    @address = address
   end
 end
 
