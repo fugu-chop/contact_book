@@ -23,6 +23,10 @@ class Book
   end
 
   def display_contacts
+    for _, value in @contacts
+      # I think I want to iterate through each pair, passing the key, value to the block
+      yield(value[:details].to_s)
+    end
   end
 
   def filter_contacts
@@ -37,17 +41,24 @@ class Book
 end
 
 class Contact
-  attr_reader :name, :phone_number, :address, :category
+  attr_accessor :name, :phone_number, :address, :category
 
   def initialize(name, phone_num, address, *category)
-    @contact = { name: name, phone_number: phone_num, address: address, category: category }
+    @contact = { name: name, phone_number: phone_num, address: address, category: category.flatten }
     @name = name
     @phone_number = phone_num
     @address = address
     @category = category.flatten
   end
+
+  def to_s
+    @contact
+  end
 end
 
 # x = Book.new('Andy')
 # x.add_contact('james', '040404', '040404', 'lazy', 'crazy')
-# x[1][:details].category.size
+# x.display_contacts do |item|
+#   item.each do 
+#   end
+# end
