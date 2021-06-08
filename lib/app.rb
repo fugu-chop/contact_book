@@ -26,6 +26,9 @@ class Book
   def display_contacts
   end
 
+  def filter_contacts
+  end
+
   def generate_contact_id
     max = CONTACT_IDS.max || 0 
     id = max + 1

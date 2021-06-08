@@ -13,6 +13,7 @@ Dotenv.load
 configure do
   enable(:sessions)
   set(:session_secret, ENV['SECRET'])
+  set(:views, '../views')
 end
 
 get '/' do
