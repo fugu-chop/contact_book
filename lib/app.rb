@@ -16,8 +16,7 @@ class Book
   end
 
   def add_contact(name, phone_num, address, *category)
-    # will need some methods to extract info from Contact object
-    @contacts[generate_contact_id] =  { details: Contact.new(name, phone_num, address), category: category }
+    @contacts[generate_contact_id] =  { details: Contact.new(name, phone_num, address) }
   end
 
   def update_contact
@@ -38,13 +37,14 @@ class Book
 end
 
 class Contact
-  attr_reader :name, :phone_number, :address
+  attr_reader :name, :phone_number, :address, :category
 
-  def initialize(name, phone_num, address)
-    @contact = { name: name, phone_number: phone_num, address: address }
+  def initialize(name, phone_num, address, *category)
+    @contact = { name: name, phone_number: phone_num, address: address, category: category }
     @name = name
     @phone_number = phone_num
     @address = address
+    @category = category
   end
 end
 
