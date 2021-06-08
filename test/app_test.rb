@@ -40,9 +40,12 @@ class AppTest < MiniTest::Test
 
   def test_delete_contact
     timmy = Book.new('Timmy')
-    timmy.add_contact('James', '0404040404', '23 King Street, Fitzroy, Victoria, 3065', 'crazy', 'lazy')
+    2.times do |_| 
+      timmy.add_contact('James', '0404040404', '23 King Street, Fitzroy, Victoria, 3065', 'crazy', 'lazy')
+    end
     timmy.delete_contact(1)
 
-    assert_equal({}, timmy.contacts)
+    assert_equal(1, timmy.contacts.size)
+    assert(timmy.contacts[2])
   end
 end
