@@ -35,7 +35,7 @@ class AppTest < MiniTest::Test
     
     assert(andy.contacts[1])
     assert_equal(1, andy.contacts.size)
-    assert_equal(2, andy.contacts[1][:details].category.size)
+    assert_equal(2, andy.contacts[1][:details][:category].size)
   end
 
   def test_delete_contact
@@ -52,14 +52,10 @@ class AppTest < MiniTest::Test
   def test_display_contacts
     jimmy = Book.new('Jimmy')
     jimmy.add_contact('Tommy', '0404040404', '23 Lazy Cat St', 'lazy')
-    test_arr = []
-    jimmy.display_contacts.each do |entry|
-      entry.each do |_, detail|
-        test_arr << detail.to_s
-      end
-    end
+    jimmy.add_contact('Wimmy', '0404040401', '22 Lazy Cat St', 'sleepy')
 
-    assert_equal(1, test_arr.size)
-    assert_equal(4, test_arr.first.size)
+    assert_instance_of(Hash, jimmy.display_contacts)
+    assert_equal(2, jimmy.display_contacts.size)
+    assert_equal('Tommy', jimmy.display_contacts[1][:details][:name])
   end
 end
