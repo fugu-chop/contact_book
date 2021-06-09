@@ -20,7 +20,7 @@ class AppTest < MiniTest::Test
   def test_create_blank_book
     trudy = Book.new('Trudy')
 
-    assert_equal({}, trudy.contacts)
+    assert_equal({}, trudy.display_contacts)
   end
 
   def test_create_book_no_name
@@ -33,9 +33,9 @@ class AppTest < MiniTest::Test
     andy = Book.new('Andy')
     andy.add_contact('James', '0404040404', '23 King Street, Fitzroy, Victoria, 3065', 'crazy', 'lazy')
     
-    assert(andy.contacts[1])
-    assert_equal(1, andy.contacts.size)
-    assert_equal(2, andy.contacts[1][:details][:category].size)
+    assert(andy.display_contacts[1])
+    assert_equal(1, andy.display_contacts.size)
+    assert_equal(2, andy.display_contacts[1][:details][:category].size)
   end
 
   def test_delete_contact
@@ -45,8 +45,8 @@ class AppTest < MiniTest::Test
     end
     timmy.delete_contact(1)
 
-    assert_equal(1, timmy.contacts.size)
-    assert(timmy.contacts[2])
+    assert_equal(1, timmy.display_contacts.size)
+    assert(timmy.display_contacts[2])
   end
 
   def test_display_contacts
