@@ -3,8 +3,6 @@ def print_hello
 end
 
 class Book
-  attr_reader :contacts
-
   def initialize(owner)
     @owner = owner
     @contacts = {}
@@ -27,8 +25,15 @@ class Book
     @contacts
   end
 
-  def filter_contacts(name)
-    @contacts.values
+  # May have to write a custom yielding method here - I want the id, which isn't being passed through currently
+  def filter_contacts(search_name)
+    filtered_arr = display_contacts.map do |id, entry|
+      entry.select do |key, details|
+        details[:name] == search_name
+      end
+    end
+
+    filtered_arr.select { |entry| entry[:details] }
   end
 
   def generate_contact_id
@@ -55,7 +60,7 @@ class Contact
   end
 end
 
-x = Book.new('Andy')
-x.add_contact('james', '040404', '1 Brown Rd', 'lazy', 'crazy')
-x.add_contact('tommy', '1414141', '23 Lazy Cat St', 'lazy')
-x.display_contacts
+# x = Book.new('Andy')
+# x.add_contact('james', '040404', '1 Brown Rd', 'lazy', 'crazy')
+# x.add_contact('tommy', '1414141', '23 Lazy Cat St', 'lazy')
+# sample = x.filter_contacts('tommy')
