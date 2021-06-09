@@ -48,4 +48,18 @@ class AppTest < MiniTest::Test
     assert_equal(1, timmy.contacts.size)
     assert(timmy.contacts[2])
   end
+
+  def test_display_contacts
+    jimmy = Book.new('Jimmy')
+    jimmy.add_contact('Tommy', '0404040404', '23 Lazy Cat St', 'lazy')
+    test_arr = []
+    jimmy.display_contacts.each do |entry|
+      entry.each do |_, detail|
+        test_arr << detail.to_s
+      end
+    end
+
+    assert_equal(1, test_arr.size)
+    assert_equal(4, test_arr.first.size)
+  end
 end
