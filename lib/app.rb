@@ -16,23 +16,19 @@ class Book
   end
 
   def add_contact(name, phone_num, address, *category)
-    @contacts[generate_contact_id] =  { details: Contact.new(name, phone_num, address, category) }
+    @contacts[generate_contact_id] =  { details: Contact.new(name, phone_num, address, category).to_s }
   end
 
   def update_contact(field, value)
-    
+
   end
 
   def display_contacts
-    end_arr = []
-    @contacts.each do |id, detail|
-      end_arr << { id => detail[:details] }
-    end
-    end_arr
+    @contacts
   end
 
   def filter_contacts(name)
-
+    @contacts.values
   end
 
   def generate_contact_id
@@ -62,3 +58,4 @@ end
 x = Book.new('Andy')
 x.add_contact('james', '040404', '1 Brown Rd', 'lazy', 'crazy')
 x.add_contact('tommy', '1414141', '23 Lazy Cat St', 'lazy')
+x.display_contacts
