@@ -19,17 +19,20 @@ class Book
     @contacts[generate_contact_id] =  { details: Contact.new(name, phone_num, address, category) }
   end
 
-  def update_contact
+  def update_contact(field, value)
+    
   end
 
   def display_contacts
-    for _, value in @contacts
-      # I think I want to iterate through each pair, passing the key, value to the block
-      yield(value[:details].to_s)
+    end_arr = []
+    @contacts.each do |id, detail|
+      end_arr << { id => detail[:details] }
     end
+    end_arr
   end
 
-  def filter_contacts
+  def filter_contacts(name)
+
   end
 
   def generate_contact_id
@@ -56,9 +59,6 @@ class Contact
   end
 end
 
-# x = Book.new('Andy')
-# x.add_contact('james', '040404', '040404', 'lazy', 'crazy')
-# x.display_contacts do |item|
-#   item.each do 
-#   end
-# end
+x = Book.new('Andy')
+x.add_contact('james', '040404', '1 Brown Rd', 'lazy', 'crazy')
+x.add_contact('tommy', '1414141', '23 Lazy Cat St', 'lazy')
