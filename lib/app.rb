@@ -25,12 +25,15 @@ class Book
     @contacts
   end
 
-  # May have to write a custom yielding method here - I want the id, which isn't being passed through currently
-  def filter_contacts(search_name)
-    filtered_arr = display_contacts.map do |id, entry|
-      entry.select do |key, details|
-        details[:name] == search_name
-      end
+  def filter_category(category)
+
+  end
+
+  def filter_contacts(search_term)
+    filtered_arr = display_contacts.map do |identifier, entry|
+      { id: identifier, details: entry.select do |key, details|
+        details[:name].slice(0,3).downcase == search_term.slice(0,3).downcase
+      end[:details] }
     end
 
     filtered_arr.select { |entry| entry[:details] }
@@ -60,7 +63,8 @@ class Contact
   end
 end
 
-# x = Book.new('Andy')
-# x.add_contact('james', '040404', '1 Brown Rd', 'lazy', 'crazy')
-# x.add_contact('tommy', '1414141', '23 Lazy Cat St', 'lazy')
-# sample = x.filter_contacts('tommy')
+x = Book.new('Andy')
+x.add_contact('james', '040404', '1 Brown Rd', 'lazy', 'crazy')
+x.add_contact('james', '040404', '1 Brown Rd', 'lazy', 'crazy')
+x.add_contact('tommy', '1414141', '23 Lazy Cat St', 'lazy')
+sample = x.filter_contacts('james')
