@@ -62,7 +62,7 @@ class AppTest < MiniTest::Test
     assert_equal('Tommy', x[1][:details][:name])
   end
 
-  def test_filter_contacts
+  def test_filter_contacts_name
     jimmy = Book.new('Jimmy')
     jimmy.add_contact('Tommy', '0404040404', '23 Lazy Cat St', 'lazy')
     jimmy.add_contact('Tommy', '0480808080', '1 Baker St', 'hungry', 'affectionate')
@@ -75,5 +75,10 @@ class AppTest < MiniTest::Test
     assert_raises(ArgumentError) do
       jimmy.filter_contacts
     end
+
+    y = jimmy.filter_contacts('affec')
+    assert_instance_of(Array, y)
+    assert_equal(1, y.size)
+    assert_equal(2, y.first[:id])
   end
 end
