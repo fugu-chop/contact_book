@@ -19,8 +19,6 @@ class Book
     @contacts[generate_contact_id] = { details: Contact.new(name, phone_num, address, category).to_s }
   end
 
-  def update_contact(field, value); end
-
   def display_contacts
     @contacts
   end
@@ -58,9 +56,17 @@ class Contact
   def to_s
     @contact
   end
+
+  def update_contact_name(value)
+    self.name = value
+  end
 end
 
+
 # x = Book.new('Andy')
+# x = Contact.new('Tommy', '0404040404', '23 Lazy Cat St', 'lazy')
+# x.update_contact_name('Jimmy')
+# x
 # x.add_contact('Tommy', '0404040404', '23 Lazy Cat St', 'lazy')
 # x.add_contact('Tommy', '0480808080', '1 Baker St', 'hungry', 'affectionate')
 # x.add_contact('Wimmy', '0404040401', '22 Lazy Cat St', 'sleepy')
