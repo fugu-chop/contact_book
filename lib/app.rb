@@ -26,13 +26,12 @@ class Book
   end
 
   def filter_category(category)
-
   end
 
   def filter_contacts(search_term)
     filtered_arr = display_contacts.map do |identifier, entry|
       { id: identifier, details: entry.select do |key, details|
-        details[:name].slice(0,3).downcase == search_term.slice(0,3).downcase
+        details[:name].downcase.match(/#{search_term.downcase}/) 
       end[:details] }
     end
 
@@ -68,3 +67,4 @@ x.add_contact('james', '040404', '1 Brown Rd', 'lazy', 'crazy')
 x.add_contact('james', '040404', '1 Brown Rd', 'lazy', 'crazy')
 x.add_contact('tommy', '1414141', '23 Lazy Cat St', 'lazy')
 sample = x.filter_contacts('james')
+
