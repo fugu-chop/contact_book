@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'minitest/autorun'
 require_relative '../lib/app'
 
@@ -32,7 +34,7 @@ class AppTest < MiniTest::Test
   def test_create_contact_from_book
     andy = Book.new('Andy')
     andy.add_contact('James', '0404040404', '23 King Street, Fitzroy, Victoria, 3065', 'crazy', 'lazy')
-    
+
     x = andy.display_contacts
     assert(x[1])
     assert_equal(1, x.size)
@@ -41,7 +43,7 @@ class AppTest < MiniTest::Test
 
   def test_delete_contact
     timmy = Book.new('Timmy')
-    2.times do |_| 
+    2.times do |_|
       timmy.add_contact('James', '0404040404', '23 King Street, Fitzroy, Victoria, 3065', 'crazy', 'lazy')
     end
     timmy.delete_contact(1)
