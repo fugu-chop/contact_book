@@ -33,9 +33,10 @@ class AppTest < MiniTest::Test
     andy = Book.new('Andy')
     andy.add_contact('James', '0404040404', '23 King Street, Fitzroy, Victoria, 3065', 'crazy', 'lazy')
     
-    assert(andy.display_contacts[1])
-    assert_equal(1, andy.display_contacts.size)
-    assert_equal(2, andy.display_contacts[1][:details][:category].size)
+    x = andy.display_contacts
+    assert(x[1])
+    assert_equal(1, x.size)
+    assert_equal(2, x[1][:details][:category].size)
   end
 
   def test_delete_contact
@@ -52,10 +53,27 @@ class AppTest < MiniTest::Test
   def test_display_contacts
     jimmy = Book.new('Jimmy')
     jimmy.add_contact('Tommy', '0404040404', '23 Lazy Cat St', 'lazy')
+    jimmy.add_contact('Tommy', '0480808080', '1 Baker St', 'hungry', 'affectionate')
     jimmy.add_contact('Wimmy', '0404040401', '22 Lazy Cat St', 'sleepy')
 
-    assert_instance_of(Hash, jimmy.display_contacts)
-    assert_equal(2, jimmy.display_contacts.size)
-    assert_equal('Tommy', jimmy.display_contacts[1][:details][:name])
+    x = jimmy.display_contacts
+    assert_instance_of(Hash, x)
+    assert_equal(3, x.size)
+    assert_equal('Tommy', x[1][:details][:name])
+  end
+
+  def test_filter_contacts
+    jimmy = Book.new('Jimmy')
+    jimmy.add_contact('Tommy', '0404040404', '23 Lazy Cat St', 'lazy')
+    jimmy.add_contact('Tommy', '0480808080', '1 Baker St', 'hungry', 'affectionate')
+    jimmy.add_contact('Wimmy', '0404040401', '22 Lazy Cat St', 'sleepy')
+
+    x = jimmy.filter_contacts('Tommy')
+    assert_instance_of(Array, x)
+    assert_equal(2, x.size)
+    assert_equal(1, x.first[:id])
+    assert_raises(ArgumentError) do
+      jimmy.filter_contacts
+    end
   end
 end
