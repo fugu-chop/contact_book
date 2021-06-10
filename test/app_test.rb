@@ -68,7 +68,7 @@ class AppTest < MiniTest::Test
     jimmy.add_contact('Tommy', '0480808080', '1 Baker St', 'hungry', 'affectionate')
     jimmy.add_contact('Wimmy', '0404040401', '22 Lazy Cat St', 'sleepy')
 
-    x = jimmy.filter_contacts('Tommy')
+    x = jimmy.filter_contacts('oMm')
     assert_instance_of(Array, x)
     assert_equal(2, x.size)
     assert_equal(1, x.first[:id])
