@@ -6,14 +6,14 @@ require 'tilt/erubis'
 require 'dotenv/load'
 require 'bcrypt'
 require 'sinatra/content_for'
-require_relative 'app.rb'
+require_relative 'app'
 
 Dotenv.load
 
 configure do
   enable(:sessions)
   set(:session_secret, ENV['SECRET'])
-  set(:views, '../views')
+  set(:views, File.expand_path('../../views', __FILE__))
 end
 
 def valid_login?(username, password)

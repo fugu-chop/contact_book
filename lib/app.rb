@@ -61,13 +61,3 @@ class Contact
     self.name = value
   end
 end
-
-
-# x = Book.new('Andy')
-# x = Contact.new('Tommy', '0404040404', '23 Lazy Cat St', 'lazy')
-# x.update_contact_name('Jimmy')
-# x
-# x.add_contact('Tommy', '0404040404', '23 Lazy Cat St', 'lazy')
-# x.add_contact('Tommy', '0480808080', '1 Baker St', 'hungry', 'affectionate')
-# x.add_contact('Wimmy', '0404040401', '22 Lazy Cat St', 'sleepy')
-# sample = x.filter_contacts('affec')
