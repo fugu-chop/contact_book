@@ -16,8 +16,24 @@ configure do
   set(:views, '../views')
 end
 
+def valid_login?(username, password)
+  username == ENV['USERNAME'] && BCrypt::Password.new(ENV['PASSWORD']) == password
+end
+
 get '/' do
   erb(:home)
+end
+
+get '/users/login' do
+  erb(:login)
+end
+
+post '/users/login' do
+  redirect '/' if valid_login?(params[:username], params[:password])
+  
+  session[:message] = "Incorrect login details; please try again"
+  status 422
+  erb(:login)
 end
 
 get '/contact' do

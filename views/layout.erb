@@ -6,6 +6,7 @@
   <body>
     <header>
       <h1>Contact Book</h1>
+      <%= session.delete(:message) %>
       <%= yield_content :home_banner %>
     </header>
     <%= yield %>
