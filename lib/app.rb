@@ -1,9 +1,5 @@
 # frozen_string_literal: true
 
-def print_hello
-  'hello'
-end
-
 class Book
   def initialize(owner)
     @owner = owner
