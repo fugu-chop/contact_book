@@ -4,6 +4,7 @@ require 'minitest/autorun'
 require 'rack/test'
 require 'bcrypt'
 require_relative '../lib/routes'
+# require "#{File.expand_path('../../lib', __FILE__)}/.env"
 
 class AppTest < Minitest::Test
   include Rack::Test::Methods

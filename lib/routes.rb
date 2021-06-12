@@ -22,8 +22,7 @@ def print_hello
 end
 
 def valid_login?(username, password)
-  # username == ENV['USERNAME'] && BCrypt::Password.new(ENV['PASSWORD']) == password
-  username == 'admin' && password == 'secret'
+  username == ENV['USERNAME'] && BCrypt::Password.new(ENV['PASSWORD']) == password
 end
 
 get '/' do
