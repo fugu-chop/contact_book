@@ -22,7 +22,8 @@ def print_hello
 end
 
 def valid_login?(username, password)
-  username == ENV['USERNAME'] && BCrypt::Password.new(ENV['PASSWORD']) == password
+  # username == ENV['USERNAME'] && BCrypt::Password.new(ENV['PASSWORD']) == password
+  username == 'admin' && password == 'secret'
 end
 
 get '/' do
@@ -39,6 +40,7 @@ end
 
 post '/users/login' do
   if valid_login?(params[:username], params[:password])
+    session[:login] = 'success'
     session[:username] = params[:username]
     redirect '/' 
   end
