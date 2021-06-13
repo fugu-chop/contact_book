@@ -1,11 +1,11 @@
 <!doctype html>
 <html lang="en-US">
-  <title>A Sinatra Contact Book App</title>
+  <title><%= session[:username] %> Contact Book App</title>
   <link rel="icon" href="favicon.ico">
 
   <body>
     <header>
-      <h1>Contact Book</h1>
+      <h1>Contact Book Application</h1>
       <%= session.delete(:message) %>
       <%= yield_content :home_banner %>
     </header>

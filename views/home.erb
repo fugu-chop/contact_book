@@ -1,4 +1,7 @@
-<% content_for :home_banner do %>
-  <%= print_hello %>
-<% end %>
+<p>Signed in as <%= session[:username]%>!</p>
 
+<p><a href='/new'>Create new contact</a></p>
+
+<form method='post' action='/users/logout'>
+  <button type='submit'>Log Out</button>
+</form>
