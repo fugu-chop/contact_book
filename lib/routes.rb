@@ -17,10 +17,6 @@ configure do
   set(:views, File.expand_path('../../views', __FILE__))
 end
 
-def print_hello
-  "Welcome #{session[:username]}!"
-end
-
 def valid_login?(username, password)
   username == ENV['USERNAME'] && BCrypt::Password.new(ENV['PASSWORD']) == password
 end
@@ -49,6 +45,12 @@ post '/users/login' do
   erb(:login)
 end
 
-get '/contact' do
-  erb(:contact)
+post '/users/logout' do
+  session.delete(:login)
+  session[:message] = 'You have been logged out.'
+  redirect '/users/login'
+end
+
+get '/new' do
+  erb(:new_contact)
 end
