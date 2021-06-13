@@ -26,6 +26,8 @@ get '/' do
     session[:message] = 'You need to be logged in to do that.'
     redirect '/users/login' 
   end
+
+  session[:contact_list] = Book.new(session[:username]) if session[:contact_list].nil?
   erb(:home)
 end
 
@@ -53,4 +55,13 @@ end
 
 get '/new' do
   erb(:new_contact)
+end
+
+post '/new' do
+  @categories = params[:categories].split
+
+  # Build in validation methods
+  session[:contact_list].add_contact(params[:name], params[:phone_num], params[:address], @categories)
+  session[:message] = "Contact for #{params[:name]} successfully created."
+  redirect '/'
 end
