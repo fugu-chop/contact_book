@@ -29,11 +29,11 @@ class AppTest < Minitest::Test
   end
 
   def test_index_logged_in
-    get "/", {}, { "rack.session" => { username: "admin" } }
+    get "/", {}, admin_session
 
     assert_equal(200, last_response.status)
     assert_equal('text/html;charset=utf-8', last_response['Content-Type'])
-    refute_nil(session[:username])
+    refute_nil(session[:login])
     assert_includes(last_response.body, "Signed in as #{session[:username]}")
   end
 
@@ -69,11 +69,19 @@ class AppTest < Minitest::Test
     assert_nil(session[:username])
   end
 
-  def test_create_new
-    get '/new'
+  def test_create_contact_view
+    get '/new', {}, admin_session
 
     assert_equal(200, last_response.status)
     assert_equal('text/html;charset=utf-8', last_response['Content-Type'])
     assert_includes(last_response.body, "<input name='phone_num'")
   end
+
+  # def test_create_valid_contact
+  #   post '/new' { username: 'random_string', password: 'some_pass' }
+
+  # end
+
+  # def test_create_invalid_contact
+  # end
 end
