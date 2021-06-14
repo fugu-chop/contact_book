@@ -21,11 +21,23 @@ def valid_login?(username, password)
   username == ENV['USERNAME'] && BCrypt::Password.new(ENV['PASSWORD']) == password
 end
 
+def valid_name?(name)
+  !name.match(/\d/)
+end
+
+def valid_phone_num?(phone_num)
+  !phone_num.match(/\D/)
+end
+
+def validate_login_status
+  return unless !session[:login]
+  
+  session[:message] = 'You need to be logged in to do that.'
+  redirect '/users/login' 
+end
+
 get '/' do
-  if !session[:username]
-    session[:message] = 'You need to be logged in to do that.'
-    redirect '/users/login' 
-  end
+  validate_login_status
 
   session[:contact_list] = Book.new(session[:username]) if session[:contact_list].nil?
   erb(:home)
@@ -54,14 +66,19 @@ post '/users/logout' do
 end
 
 get '/new' do
+  validate_login_status
   erb(:new_contact)
 end
 
 post '/new' do
   @categories = params[:categories].split
 
-  # Build in validation methods
-  session[:contact_list].add_contact(params[:name], params[:phone_num], params[:address], @categories)
-  session[:message] = "Contact for #{params[:name]} successfully created."
-  redirect '/'
+  if valid_name?(params[:name]) && valid_phone_num?(params[:phone_num])
+    session[:contact_list].add_contact(params[:name], params[:phone_num], params[:address], @categories)
+    session[:message] = "Contact for #{params[:name]} successfully created."
+    redirect '/'
+  else
+    session[:message] = 'Invalid field detected! Please check and try again.'
+    erb(:new_contact)
+  end
 end
