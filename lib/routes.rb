@@ -26,7 +26,7 @@ def valid_name?(name)
 end
 
 def valid_phone_num?(phone_num)
-  !phone_num.match(/\D/)
+  !phone_num.match(/\D/) && phone_num.length == 10
 end
 
 def validate_login_status
@@ -71,13 +71,14 @@ get '/new' do
 end
 
 post '/new' do
-  @categories = params[:categories].split
+  @categories = params[:categories].split(',')
 
   if valid_name?(params[:name]) && valid_phone_num?(params[:phone_num])
     session[:contact_list].add_contact(params[:name], params[:phone_num], params[:address], @categories)
     session[:message] = "Contact for #{params[:name]} successfully created."
     redirect '/'
   else
+    status 422
     session[:message] = 'Invalid field detected! Please check and try again.'
     erb(:new_contact)
   end
