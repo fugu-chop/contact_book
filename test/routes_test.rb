@@ -77,11 +77,20 @@ class AppTest < Minitest::Test
     assert_includes(last_response.body, "<input name='phone_num'")
   end
 
-  # def test_create_valid_contact
-  #   post '/new' { username: 'random_string', password: 'some_pass' }
+  def test_create_valid_contact
+    get '/', {}, admin_session
+    post '/new', { name: 'Albert', phone_num: '0421345678', address: '123 Lazy St, The Bog', categories: 'Lazy Boyz' }, admin_session
+    
+    assert_equal(302, last_response.status)
+    assert_instance_of(Book, session[:contact_list])
+    assert_equal('Albert', session[:contact_list].display_contacts[1][:details][:name])
+  end
 
-  # end
+  def test_create_invalid_contact
+    get '/', {}, admin_session
+    post '/new', { name: 'Albert', phone_num: '042135678', address: '123 Lazy St, The Bog', categories: 'Lazy Boyz' }, admin_session
 
-  # def test_create_invalid_contact
-  # end
+    assert_equal(422, last_response.status)
+    assert_includes(last_response.body, 'Invalid field detected!')
+  end
 end
