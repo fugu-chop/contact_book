@@ -31,7 +31,7 @@ class Book
   end
 
   def generate_contact_id
-    max = @contact_ids.max || 0
+    max = @contact_ids.max || -1
     id = max + 1
     @contact_ids << id
     id

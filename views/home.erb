@@ -1,4 +1,15 @@
-<p>Signed in as <%= session[:username]%>!</p>
+<p> Signed in as <%= session[:username]%>!</p>
+
+<h3>Contacts:</h3>
+
+<ul>
+  <% session[:contact_list].display_contacts.each_with_index do |item, idx| %>
+    <% item[1][:details].each_pair do |key, val| %>
+      <li><%= display_key(key) %>: <%= val %></li>
+    <% end %>
+    <br/>
+  <% end %>
+</ul>
 
 <p><a href='/new'>Create new contact</a></p>
 

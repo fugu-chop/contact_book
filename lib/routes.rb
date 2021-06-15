@@ -17,6 +17,12 @@ configure do
   set(:views, File.expand_path('../../views', __FILE__))
 end
 
+helpers do
+  def display_key(key)
+    key.to_s.split('_').map(&:capitalize).join(' ')
+  end
+end
+
 def valid_login?(username, password)
   username == ENV['USERNAME'] && BCrypt::Password.new(ENV['PASSWORD']) == password
 end
@@ -77,9 +83,9 @@ post '/new' do
     session[:contact_list].add_contact(params[:name], params[:phone_num], params[:address], @categories)
     session[:message] = "Contact for #{params[:name]} successfully created."
     redirect '/'
-  else
-    status 422
-    session[:message] = 'Invalid field detected! Please check and try again.'
-    erb(:new_contact)
   end
+
+  status 422
+  session[:message] = 'Invalid field detected! Please check and try again.'
+  erb(:new_contact)
 end
