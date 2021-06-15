@@ -14,7 +14,7 @@ configure do
   enable(:sessions)
   set(:session_secret, 'abc')
   # set(:session_secret, ENV['SECRET'])
-  set(:views, File.expand_path('../../views', __FILE__))
+  set(:views, File.expand_path('../views', __dir__))
 end
 
 helpers do
@@ -36,10 +36,10 @@ def valid_phone_num?(phone_num)
 end
 
 def validate_login_status
-  return unless !session[:login]
-  
+  return if session[:login]
+
   session[:message] = 'You need to be logged in to do that.'
-  redirect '/users/login' 
+  redirect '/users/login'
 end
 
 get '/' do
@@ -57,10 +57,10 @@ post '/users/login' do
   if valid_login?(params[:username], params[:password])
     session[:login] = 'success'
     session[:username] = params[:username]
-    redirect '/' 
+    redirect '/'
   end
 
-  session[:message] = "Incorrect login details; please try again"
+  session[:message] = 'Incorrect login details; please try again'
   status 422
   erb(:login)
 end

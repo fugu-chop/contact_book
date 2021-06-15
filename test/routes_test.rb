@@ -1,4 +1,6 @@
-ENV["RACK_ENV"] = "test"
+# frozen_string_literal: true
+
+ENV['RACK_ENV'] = 'test'
 
 require 'minitest/autorun'
 require 'rack/test'
@@ -29,7 +31,7 @@ class AppTest < Minitest::Test
   end
 
   def test_index_logged_in
-    get "/", {}, admin_session
+    get '/', {}, admin_session
 
     assert_equal(200, last_response.status)
     assert_equal('text/html;charset=utf-8', last_response['Content-Type'])
@@ -58,14 +60,14 @@ class AppTest < Minitest::Test
 
     assert_equal(422, last_response.status)
     # Can't access the session[:message] after re-render due to delete method
-    assert_includes(last_response.body, "Incorrect login details; please try again")
+    assert_includes(last_response.body, 'Incorrect login details; please try again')
   end
 
   def test_logout
     post '/users/logout'
 
     assert_equal(302, last_response.status)
-    assert_equal(session[:message], "You have been logged out.")
+    assert_equal(session[:message], 'You have been logged out.')
     assert_nil(session[:username])
   end
 
@@ -79,8 +81,9 @@ class AppTest < Minitest::Test
 
   def test_create_valid_contact
     get '/', {}, admin_session
-    post '/new', { name: 'Albert', phone_num: '0421345678', address: '123 Lazy St, The Bog', categories: 'Lazy Boyz' }, admin_session
-    
+    post '/new',
+         { name: 'Albert', phone_num: '0421345678', address: '123 Lazy St, The Bog', categories: 'Lazy Boyz' }, admin_session
+
     assert_equal(302, last_response.status)
     assert_instance_of(Book, session[:contact_list])
     assert_equal('Albert', session[:contact_list].display_contacts[0][:details][:name])
@@ -93,14 +96,16 @@ class AppTest < Minitest::Test
 
   def test_create_multiple_valid_contact
     get '/', {}, admin_session
-    post '/new', { name: 'Albert', phone_num: '0421345678', address: '123 Lazy St, The Bog', categories: 'Lazy Boyz' }, admin_session
+    post '/new',
+         { name: 'Albert', phone_num: '0421345678', address: '123 Lazy St, The Bog', categories: 'Lazy Boyz' }, admin_session
 
     assert_equal(302, last_response.status)
     assert_instance_of(Book, session[:contact_list])
     assert_equal('Albert', session[:contact_list].display_contacts[0][:details][:name])
 
-    post '/new', { name: 'Yimby', phone_num: '0421345679', address: '125 Lazy St, The Bog', categories: 'Lazy Boyz' }, admin_session
-    
+    post '/new', { name: 'Yimby', phone_num: '0421345679', address: '125 Lazy St, The Bog', categories: 'Lazy Boyz' },
+         admin_session
+
     assert_equal(302, last_response.status)
     assert_instance_of(Book, session[:contact_list])
     assert_equal('Yimby', session[:contact_list].display_contacts[1][:details][:name])
@@ -115,7 +120,8 @@ class AppTest < Minitest::Test
 
   def test_create_invalid_contact
     get '/', {}, admin_session
-    post '/new', { name: 'Albert', phone_num: '042135678', address: '123 Lazy St, The Bog', categories: 'Lazy Boyz' }, admin_session
+    post '/new', { name: 'Albert', phone_num: '042135678', address: '123 Lazy St, The Bog', categories: 'Lazy Boyz' },
+         admin_session
 
     assert_equal(422, last_response.status)
     assert_includes(last_response.body, 'Invalid field detected!')
