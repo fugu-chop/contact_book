@@ -83,7 +83,34 @@ class AppTest < Minitest::Test
     
     assert_equal(302, last_response.status)
     assert_instance_of(Book, session[:contact_list])
-    assert_equal('Albert', session[:contact_list].display_contacts[1][:details][:name])
+    assert_equal('Albert', session[:contact_list].display_contacts[0][:details][:name])
+
+    get '/'
+
+    assert_includes(last_response.body, 'Name: Albert')
+    assert_includes(last_response.body, 'Phone Number: 0421345678')
+  end
+
+  def test_create_multiple_valid_contact
+    get '/', {}, admin_session
+    post '/new', { name: 'Albert', phone_num: '0421345678', address: '123 Lazy St, The Bog', categories: 'Lazy Boyz' }, admin_session
+
+    assert_equal(302, last_response.status)
+    assert_instance_of(Book, session[:contact_list])
+    assert_equal('Albert', session[:contact_list].display_contacts[0][:details][:name])
+
+    post '/new', { name: 'Yimby', phone_num: '0421345679', address: '125 Lazy St, The Bog', categories: 'Lazy Boyz' }, admin_session
+    
+    assert_equal(302, last_response.status)
+    assert_instance_of(Book, session[:contact_list])
+    assert_equal('Yimby', session[:contact_list].display_contacts[1][:details][:name])
+
+    get '/'
+
+    assert_includes(last_response.body, 'Name: Albert')
+    assert_includes(last_response.body, 'Name: Yimby')
+    assert_includes(last_response.body, 'Phone Number: 0421345678')
+    assert_includes(last_response.body, 'Phone Number: 0421345679')
   end
 
   def test_create_invalid_contact
