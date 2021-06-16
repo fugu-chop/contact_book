@@ -21,6 +21,11 @@ helpers do
   def display_key(key)
     key.to_s.split('_').map(&:capitalize).join(' ')
   end
+
+  def display_value(value)
+    return value unless value.instance_of?(Array)
+    value.flatten.join(', ')
+  end
 end
 
 def valid_login?(username, password)
@@ -77,7 +82,11 @@ get '/new' do
 end
 
 post '/new' do
+  # Bug: For some reason, any string with a space that's captured as part of the params hash does not fully return when the form is invalid.
+  # I have tried capturing the value as an instance variable, but this does not seem to make a difference.
+  # I suspect it's something to do with spaces not being escaped properly?
   @categories = params[:categories].split(',')
+  @name = params[:name]
 
   if valid_name?(params[:name]) && valid_phone_num?(params[:phone_num])
     session[:contact_list].add_contact(params[:name], params[:phone_num], params[:address], @categories)

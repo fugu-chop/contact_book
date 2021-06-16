@@ -1,10 +1,10 @@
 <form method='post' action='/new'>
   <h3>Add new contact</h3>
   <div>
-    <p><input name='name' value=<%= params[:name] || 'Name' %>></p>
-    <p><input name='phone_num' value=<%= params[:phone_num] || 'Phone Number (please include area code)' %>></p>
-    <p><input name='address' value=<%= params[:address] || 'Address' %>></p>
-    <p><input name='categories' value=<%= params[:categories] || 'Categories' %>></p>
+    <p>Name: <input name='name' value=<%= params[:name] || 'Name' %>></p>
+    <p>Phone Number: <input name='phone_num' value=<%= params[:phone_num] || 'Phone Number (please include area code)' %>></p>
+    <p>Address: <input name='address' value=<%= params[:address] || 'Address' %>></p>
+    <p>Categories: <input name='categories' value=<%= params[:categories] || 'Categories' %>></p>
     <button type='submit'>Create contact</button>
   </div>
 </form>
