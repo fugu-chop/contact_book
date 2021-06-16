@@ -7,6 +7,12 @@
     <% item[1][:details].each_pair do |key, val| %>
       <li><%= display_key(key) %>: <%= display_value(val) %></li>
     <% end %>
+    <form method='post' action='/contact/edit'>
+      <button type='submit'>Edit Contact</button>
+    </form>
+    <form method='post' action='/contact/delete'>
+      <button type='submit'>Delete Contact</button>
+    </form>
     <br/>
   <% end %>
 </ul>
