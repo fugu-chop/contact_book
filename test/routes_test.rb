@@ -125,5 +125,11 @@ class AppTest < Minitest::Test
 
     assert_equal(422, last_response.status)
     assert_includes(last_response.body, 'Invalid field detected!')
+
+    post '/new', { name: 'Albert', phone_num: '0421356788', address: '1', categories: 'Lazy Boyz' },
+         admin_session
+
+    assert_equal(422, last_response.status)
+    assert_includes(last_response.body, 'Invalid field detected!')
   end
 end
