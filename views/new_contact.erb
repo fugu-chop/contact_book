@@ -1,10 +1,18 @@
 <form method='post' action='/new'>
   <h3>Add new contact</h3>
   <div>
-    <p>Name: <input name='name' value=<%= params[:name] || 'Name' %>></p>
-    <p>Phone Number: <input name='phone_num' value=<%= params[:phone_num] || 'Phone Number (please include area code)' %>></p>
-    <p>Address: <input name='address' value=<%= params[:address] || 'Address' %>></p>
-    <p>Categories: <input name='categories' value=<%= params[:categories] || 'Categories' %>></p>
+    <label for="name">First name: </label>
+    <input name='name' value='<%= @list[:name] || 'Name'  %>'>
+    <br/>
+    <label for="phone_num">Phone number: </label>
+    <input name='phone_num' value='<%= params[:phone_num] || 'Phone Number (please include area code)' %>'>
+    <br/>
+    <label for="address">Address: </label>
+    <input name='address' value='<%= params[:address] || 'Address' %>'>
+    <br/>
+    <label for="categories">Categories: </label>
+    <input name='categories' value='<%= params[:categories] || 'Categories' %>'>
+    <br/>
     <button type='submit'>Create contact</button>
   </div>
 </form>
