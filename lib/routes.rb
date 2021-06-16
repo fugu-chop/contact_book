@@ -81,14 +81,12 @@ post '/users/logout' do
 end
 
 get '/new' do
+  @list = {}
   validate_login_status
   erb(:new_contact)
 end
 
 post '/new' do
-  # Bug: For some reason, any string with a space that's captured as part of the params hash does not fully return when the form is invalid.
-  # I have tried capturing the value as an instance variable, but this does not seem to make a difference.
-  # I suspect it's something to do with spaces not being escaped properly?
   @categories = params[:categories].split(',')
 
   if valid_name?(params[:name]) && valid_phone_num?(params[:phone_num]) &&
