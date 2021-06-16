@@ -32,3 +32,7 @@ They can be executed through `bundle exec ruby *_test.rb`, where `*` is the appr
 ### Design Choices
 
 ### Challenges
+A few pointy bits that had me searching Stack Overflow and Google for:
+- The `ENV` variable has to live in the root directory; this is what the `dotenv` gem expects when searching for it. This is necessary for the `Bcrypt` gem to access the `ENV` file.
+- For some reason (I still can't figure out why), Rack still isn't able to access the `ENV` file - I have to manually set a session secret in order to run route related tests.
+- HTML values truncate if there is a space (relevant when re-rendering a template with the old values); you have to wrap the entire value returned with quotes for it to fully show up.
