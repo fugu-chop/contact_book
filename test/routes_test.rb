@@ -6,7 +6,6 @@ require 'minitest/autorun'
 require 'rack/test'
 require 'bcrypt'
 require_relative '../lib/routes'
-# require "#{File.expand_path('../../lib', __FILE__)}/.env"
 
 class AppTest < Minitest::Test
   include Rack::Test::Methods
@@ -97,7 +96,7 @@ class AppTest < Minitest::Test
   def test_create_multiple_valid_contact
     get '/', {}, admin_session
     post '/new',
-         { name: 'Albert', phone_num: '0421345678', address: '123 Lazy St, The Bog', categories: 'Lazy Boyz' }, admin_session
+         { name: 'Albert', phone_num: '0421345678', address: '123 Lazy St, The Bog', categories: 'Lazy Boyz, Cool Kids' }, admin_session
 
     assert_equal(302, last_response.status)
     assert_instance_of(Book, session[:contact_list])
@@ -116,6 +115,7 @@ class AppTest < Minitest::Test
     assert_includes(last_response.body, 'Name: Yimby')
     assert_includes(last_response.body, 'Phone Number: 0421345678')
     assert_includes(last_response.body, 'Phone Number: 0421345679')
+    assert_includes(last_response.body, 'Category: Lazy Boyz,  Cool Kids')
   end
 
   def test_create_invalid_contact
