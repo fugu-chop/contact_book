@@ -40,6 +40,10 @@ def valid_phone_num?(phone_num)
   !phone_num.match(/\D/) && phone_num.length == 10
 end
 
+def valid_address?(address)
+  address.match(/\D/) && address.match(/\d/)
+end
+
 def validate_login_status
   return if session[:login]
 
@@ -86,9 +90,9 @@ post '/new' do
   # I have tried capturing the value as an instance variable, but this does not seem to make a difference.
   # I suspect it's something to do with spaces not being escaped properly?
   @categories = params[:categories].split(',')
-  @name = params[:name]
 
-  if valid_name?(params[:name]) && valid_phone_num?(params[:phone_num])
+  if valid_name?(params[:name]) && valid_phone_num?(params[:phone_num]) &&
+    valid_address?(params[:address])
     session[:contact_list].add_contact(params[:name], params[:phone_num], params[:address], @categories)
     session[:message] = "Contact for #{params[:name]} successfully created."
     redirect '/'
