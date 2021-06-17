@@ -132,4 +132,18 @@ class AppTest < Minitest::Test
     assert_equal(422, last_response.status)
     assert_includes(last_response.body, 'Invalid field detected!')
   end
+
+  def test_delete_contact
+    get '/', {}, admin_session
+    post '/new',
+        { name: 'Albert', phone_num: '0421345678', address: '123 Lazy St, The Bog', categories: 'Lazy Boyz, Cool Kids' }, admin_session
+    post '/new',
+        { name: 'Crimbolio', phone_num: '0421345678', address: '123 Lazy St, The Bog', categories: 'Lazy Boyz, Cool Kids' }, admin_session
+
+    post '/1/delete'
+    
+    assert_equal(302, last_response.status)
+    assert_equal(1, session[:contact_list].display_contacts.size)
+    assert_equal('Crimbolio deleted from contacts.', session[:message])
+  end
 end
