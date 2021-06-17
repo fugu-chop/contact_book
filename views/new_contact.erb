@@ -2,16 +2,16 @@
   <h3>Add new contact</h3>
   <div>
     <label for="name">First name: </label>
-    <input name='name' value='<%= params[:name] || 'Name'  %>'>
+    <input name='name' value='<%= params[:name] %>'>
     <br/>
     <label for="phone_num">Phone number: </label>
     <input name='phone_num' value='<%= params[:phone_num] || 'Please include area code' %>'>
     <br/>
     <label for="address">Address: </label>
-    <input name='address' value='<%= params[:address] || 'Address' %>'>
+    <input name='address' value='<%= params[:address] %>'>
     <br/>
     <label for="categories">Categories: </label>
-    <input name='categories' value='<%= params[:categories] || 'Categories' %>'>
+    <input name='categories' value='<%= params[:categories] %>'>
     <br/>
     <button type='submit'>Create contact</button>
   </div>

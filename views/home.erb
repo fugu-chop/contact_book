@@ -3,14 +3,14 @@
 <h3>Contacts:</h3>
 
 <ul>
-  <% session[:contact_list].display_contacts.each_with_index do |item, idx| %>
-    <% item[1][:details].each_pair do |key, val| %>
+  <% session[:contact_list].display_contacts.each_pair do |id, detail| %>
+    <% detail[:details].each_pair do |key, val| %>
       <li><%= display_key(key) %>: <%= display_value(val) %></li>
     <% end %>
     <form method='post' action='/contact/edit'>
       <button type='submit'>Edit Contact</button>
     </form>
-    <form method='post' action='/contact/delete'>
+    <form method='post' action='/<%= id %>/delete'>
       <button type='submit'>Delete Contact</button>
     </form>
     <br/>
