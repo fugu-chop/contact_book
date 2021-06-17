@@ -5,7 +5,7 @@ require_relative '../lib/app'
 
 class AppTest < MiniTest::Test
   def test_create_contact_direct
-    james = Contact.new('James', '0404040404', '23 King Street, Fitzroy, Victoria, 3065', 'lazy', 'crazy')
+    james = Contact.new('James', '0404040404', '23 King Street, Fitzroy, Victoria, 3065', ['lazy', 'crazy'])
 
     assert_equal('James', james.name)
     assert_equal('0404040404', james.phone_number)
@@ -36,9 +36,9 @@ class AppTest < MiniTest::Test
     andy.add_contact('James', '0404040404', '23 King Street, Fitzroy, Victoria, 3065', 'crazy', 'lazy')
 
     x = andy.display_contacts
-    assert(x[1])
+    assert(x[0])
     assert_equal(1, x.size)
-    assert_equal(2, x[1][:details][:category].size)
+    assert_equal(2, x[0][:details][:category].size)
   end
 
   def test_delete_contact
@@ -49,7 +49,7 @@ class AppTest < MiniTest::Test
     timmy.delete_contact(1)
 
     assert_equal(1, timmy.display_contacts.size)
-    assert(timmy.display_contacts[2])
+    assert(timmy.display_contacts[0])
   end
 
   def test_display_contacts
@@ -73,7 +73,7 @@ class AppTest < MiniTest::Test
     x = jimmy.filter_contacts('oMm')
     assert_instance_of(Array, x)
     assert_equal(2, x.size)
-    assert_equal(1, x.first[:id])
+    assert_equal(0, x.first[:id])
     assert_raises(ArgumentError) do
       jimmy.filter_contacts
     end
@@ -81,6 +81,6 @@ class AppTest < MiniTest::Test
     y = jimmy.filter_contacts('affec')
     assert_instance_of(Array, y)
     assert_equal(1, y.size)
-    assert_equal(2, y.first[:id])
+    assert_equal(1, y.first[:id])
   end
 end
