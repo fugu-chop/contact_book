@@ -55,8 +55,6 @@ get '/' do
   validate_login_status
 
   session[:contact_list] = Book.new(session[:username]) if session[:contact_list].nil?
-  p session[:contact_list]
-
   erb(:home)
 end
 
