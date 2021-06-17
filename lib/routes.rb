@@ -55,6 +55,8 @@ get '/' do
   validate_login_status
 
   session[:contact_list] = Book.new(session[:username]) if session[:contact_list].nil?
+  p session[:contact_list]
+
   erb(:home)
 end
 
@@ -99,4 +101,12 @@ post '/new' do
   status 422
   session[:message] = 'Invalid field detected! Please check and try again.'
   erb(:new_contact)
+end
+
+post '/:contact/delete' do
+  idx = params[:contact].to_i
+  
+  deleted_contact = session[:contact_list].delete_contact(idx)
+  session[:message] = "#{deleted_contact[:details][:name]} deleted from contacts."
+  redirect '/'
 end
