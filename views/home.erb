@@ -2,20 +2,32 @@
 
 <h3>Contacts:</h3>
 
-<ul>
-  <% session[:contact_list].display_contacts.each_pair do |id, detail| %>
-    <% detail[:details].each_pair do |key, val| %>
-      <li><%= display_key(key) %>: <%= display_value(val) %></li>
-    <% end %>
-    <form method='post' action='/contact/edit'>
-      <button type='submit'>Edit Contact</button>
-    </form>
-    <form method='post' action='/<%= id %>/delete'>
-      <button type='submit'>Delete Contact</button>
-    </form>
+<div>
+  <form method='post' action='/search'>
+    <label for='search_name'>Search for contact name: </label>
     <br/>
-  <% end %>
-</ul>
+    <input name='search_name' value='<%= params[:search_name] %>'>
+    <button type='submit'>Search!</button>
+    <button type='submit'>Clear Search Results</button>
+  </form>
+</div>
+
+<div>
+  <ul>
+    <% @contacts.display_contacts.each_pair do |id, detail| %>
+      <% detail[:details].each_pair do |key, val| %>
+        <li><%= display_key(key) %>: <%= display_value(val) %></li>
+      <% end %>
+      <form method='post' action='/contact/edit'>
+        <button type='submit'>Edit Contact</button>
+      </form>
+      <form method='post' action='/<%= id %>/delete'>
+        <button type='submit'>Delete Contact</button>
+      </form>
+      <br/>
+    <% end %>
+  </ul>
+</div>
 
 <p><a href='/new'>Create new contact</a></p>
 
