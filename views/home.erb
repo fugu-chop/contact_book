@@ -4,10 +4,12 @@
 
 <div>
   <form method='post' action='/search'>
-    <label for='search_name'>Search for contact name: </label>
+    <label for='search_name'>Search for contact name/category: </label>
     <br/>
     <input name='search_name' value='<%= params[:search_name] %>'>
     <button type='submit'>Search!</button>
+  </form>
+  <form method='get' action='/'>
     <button type='submit'>Clear Search Results</button>
   </form>
 </div>
