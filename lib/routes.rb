@@ -55,6 +55,7 @@ get '/' do
   validate_login_status
 
   session[:contact_list] = Book.new(session[:username]) if session[:contact_list].nil?
+  @contacts = session[:contact_list]
   erb(:home)
 end
 
@@ -107,4 +108,21 @@ post '/:contact/delete' do
   deleted_contact = session[:contact_list].delete_contact(idx)
   session[:message] = "#{deleted_contact[:details][:name]} deleted from contacts."
   redirect '/'
+end
+
+post '/search' do
+  search_term = params[:search_name]
+  filtered_obj = session[:contact_list].filter_contacts(search_term)
+  filtered_book = Book.new('filtered')
+
+  filtered_obj.each do |item|
+    filtered_book.add_contact(item[:details][:name], item[:details][:phone_number], item[:details][:address], item[:details][:category])
+  end
+
+  @contacts = filtered_book
+  erb(:home)
+end
+
+post '/reset' do
+  
 end
