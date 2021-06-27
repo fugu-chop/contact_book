@@ -18,7 +18,7 @@
       <% detail[:details].each_pair do |key, val| %>
         <li><%= display_key(key) %>: <%= display_value(val) %></li>
       <% end %>
-      <form method='post' action='/contact/edit'>
+      <form method='post' action='/<%= id %>/edit'>
         <button type='submit'>Edit Contact</button>
       </form>
       <form method='post' action='/<%= id %>/delete'>
