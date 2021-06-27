@@ -81,7 +81,7 @@ class AppTest < Minitest::Test
   def test_create_valid_contact
     get '/', {}, admin_session
     post '/new',
-         { name: 'Albert', phone_num: '0421345678', address: '123 Lazy St, The Bog', categories: 'Lazy Boyz' }, admin_session
+         { name: 'Albert', phone_num: '0421345678', address: '123 Lazy St, The Bog', categories: 'Lazy Boyz' }
 
     assert_equal(302, last_response.status)
     assert_instance_of(Book, session[:contact_list])
@@ -95,15 +95,13 @@ class AppTest < Minitest::Test
 
   def test_create_multiple_valid_contact
     get '/', {}, admin_session
-    post '/new',
-         { name: 'Albert', phone_num: '0421345678', address: '123 Lazy St, The Bog', categories: 'Lazy Boyz, Cool Kids' }, admin_session
+    post '/new', { name: 'Albert', phone_num: '0421345678', address: '123 Lazy St, The Bog', categories: 'Lazy Boyz, Cool Kids' }
 
     assert_equal(302, last_response.status)
     assert_instance_of(Book, session[:contact_list])
     assert_equal('Albert', session[:contact_list].display_contacts[0][:details][:name])
 
-    post '/new', { name: 'Yimby', phone_num: '0421345679', address: '125 Lazy St, The Bog', categories: 'Lazy Boyz' },
-         admin_session
+    post '/new', { name: 'Yimby', phone_num: '0421345679', address: '125 Lazy St, The Bog', categories: 'Lazy Boyz' }
 
     assert_equal(302, last_response.status)
     assert_instance_of(Book, session[:contact_list])
@@ -120,14 +118,12 @@ class AppTest < Minitest::Test
 
   def test_create_invalid_contact
     get '/', {}, admin_session
-    post '/new', { name: 'Albert', phone_num: '042135678', address: '123 Lazy St, The Bog', categories: 'Lazy Boyz' },
-         admin_session
+    post '/new', { name: 'Albert', phone_num: '042135678', address: '123 Lazy St, The Bog', categories: 'Lazy Boyz' }
 
     assert_equal(422, last_response.status)
     assert_includes(last_response.body, 'Invalid field detected!')
 
-    post '/new', { name: 'Albert', phone_num: '0421356788', address: '1', categories: 'Lazy Boyz' },
-         admin_session
+    post '/new', { name: 'Albert', phone_num: '0421356788', address: '1', categories: 'Lazy Boyz' }
 
     assert_equal(422, last_response.status)
     assert_includes(last_response.body, 'Invalid field detected!')
@@ -135,15 +131,37 @@ class AppTest < Minitest::Test
 
   def test_delete_contact
     get '/', {}, admin_session
-    post '/new',
-        { name: 'Albert', phone_num: '0421345678', address: '123 Lazy St, The Bog', categories: 'Lazy Boyz, Cool Kids' }, admin_session
-    post '/new',
-        { name: 'Crimbolio', phone_num: '0421345678', address: '123 Lazy St, The Bog', categories: 'Lazy Boyz, Cool Kids' }, admin_session
+    post '/new', { name: 'Albert', phone_num: '0421345678', address: '123 Lazy St, The Bog', categories: 'Lazy Boyz, Cool Kids' }
+    post '/new', { name: 'Crimbolio', phone_num: '0421345678', address: '123 Lazy St, The Bog', categories: 'Lazy Boyz, Cool Kids' }
 
     post '/1/delete'
     
     assert_equal(302, last_response.status)
     assert_equal(1, session[:contact_list].display_contacts.size)
     assert_equal('Crimbolio deleted from contacts.', session[:message])
+  end
+
+  def test_valid_search
+    get '/', {}, admin_session
+    post '/new',
+        { name: 'Albert', phone_num: '0421345678', address: '123 Lazy St, The Bog', categories: 'Cool Kids' }
+    post '/new',
+        { name: 'Crimbolio', phone_num: '0421345678', address: '123 Lazy St, The Bog', categories: 'Lazy Boyz' }
+    post '/search', { search_name: 'boyz' }
+
+    assert_equal(200, last_response.status)
+    assert_includes(last_response.body, 'Boyz')
+    refute_includes(last_response.body, 'Cool Kids')
+  end
+
+  def test_invalid_search
+    get '/', {}, admin_session
+    post '/new',
+        { name: 'Albert', phone_num: '0421345678', address: '123 Lazy St, The Bog', categories: 'Cool Kids' }
+    post '/search', { search_name: 'boyz' }
+    
+    assert_equal(302, last_response.status)
+    assert_includes(session[:message], "The 'boyz' search term was not found.")
+    refute_includes(last_response.body, 'boyz')
   end
 end
