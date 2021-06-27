@@ -139,3 +139,7 @@ post '/search' do
   # Re-render since redirect clears instance variables
   erb(:home)
 end
+
+post '/:contact/edit' do
+  erb(:new_contact)
+end
