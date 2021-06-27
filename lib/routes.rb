@@ -24,6 +24,7 @@ helpers do
 
   def display_value(value)
     return value unless value.instance_of?(Array)
+
     value.flatten.join(', ')
   end
 end
@@ -54,7 +55,8 @@ end
 def display_filtered_contacts(filtered_obj)
   filtered_book = Book.new('filtered')
   filtered_obj.each do |item|
-    filtered_book.add_contact(item[:details][:name], item[:details][:phone_number], item[:details][:address], item[:details][:category])
+    filtered_book.add_contact(item[:details][:name], item[:details][:phone_number], item[:details][:address],
+                              item[:details][:category])
   end
   filtered_book
 end
@@ -103,7 +105,7 @@ post '/new' do
   @categories = params[:categories].split(',')
 
   if valid_name?(params[:name]) && valid_phone_num?(params[:phone_num]) &&
-    valid_address?(params[:address])
+     valid_address?(params[:address])
     session[:contact_list].add_contact(params[:name], params[:phone_num], params[:address], @categories)
     session[:message] = "Contact for #{params[:name]} successfully created."
     redirect '/'
@@ -116,7 +118,7 @@ end
 
 post '/:contact/delete' do
   idx = params[:contact].to_i
-  
+
   deleted_contact = session[:contact_list].delete_contact(idx)
   session[:message] = "#{deleted_contact[:details][:name]} deleted from contacts."
   redirect '/'
@@ -132,7 +134,7 @@ post '/search' do
     session[:search_term] = search_term
     redirect '/'
   end
-  
+
   @contacts = display_filtered_contacts(filtered_obj) unless filtered_obj.empty?
   # Re-render since redirect clears instance variables
   erb(:home)
