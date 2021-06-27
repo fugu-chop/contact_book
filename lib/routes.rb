@@ -64,6 +64,10 @@ get '/' do
 
   session[:contact_list] = Book.new(session[:username]) if session[:contact_list].nil?
   @contacts = session[:contact_list]
+
+  # Clear search term saved to session hash if it exists
+  session.delete(:search_term)
+
   erb(:home)
 end
 
@@ -120,15 +124,16 @@ end
 
 post '/search' do
   search_term = params[:search_name]
-
   filtered_obj = session[:contact_list].filter_contacts(search_term)
-  @contacts = display_filtered_contacts(filtered_obj) unless filtered_obj.empty?
 
   if filtered_obj.empty?
-    session[:message] = "#{search_term.to_s} not found." 
+    search_term = params[:search_name]
+    session[:message] = "The '#{search_term}' search term was not found."
+    session[:search_term] = search_term
     redirect '/'
   end
   
+  @contacts = display_filtered_contacts(filtered_obj) unless filtered_obj.empty?
   # Re-render since redirect clears instance variables
   erb(:home)
 end
