@@ -1,12 +1,10 @@
-<p> Signed in as <%= session[:username]%>!</p>
-
 <h3>Contacts:</h3>
 
 <div>
   <form method='post' action='/search'>
     <label for='search_name'>Search for contact name/category: </label>
     <br/>
-    <input name='search_name' value='<%= params[:search_name] %>'>
+    <input name='search_name' value='<%= session[:search_term] || params[:search_name] %>'>
     <button type='submit'>Search!</button>
   </form>
   <form method='get' action='/'>
@@ -32,6 +30,8 @@
 </div>
 
 <p><a href='/new'>Create new contact</a></p>
+
+<p><i> Signed in as <%= session[:username]%>!</i></p>
 
 <form method='post' action='/users/logout'>
   <button type='submit'>Log Out</button>
