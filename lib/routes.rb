@@ -51,6 +51,14 @@ def validate_login_status
   redirect '/users/login'
 end
 
+def display_filtered_contacts(filtered_obj)
+  filtered_book = Book.new('filtered')
+  filtered_obj.each do |item|
+    filtered_book.add_contact(item[:details][:name], item[:details][:phone_number], item[:details][:address], item[:details][:category])
+  end
+  filtered_book
+end
+
 get '/' do
   validate_login_status
 
@@ -112,17 +120,15 @@ end
 
 post '/search' do
   search_term = params[:search_name]
+
   filtered_obj = session[:contact_list].filter_contacts(search_term)
-  filtered_book = Book.new('filtered')
+  @contacts = display_filtered_contacts(filtered_obj) unless filtered_obj.empty?
 
-  filtered_obj.each do |item|
-    filtered_book.add_contact(item[:details][:name], item[:details][:phone_number], item[:details][:address], item[:details][:category])
+  if filtered_obj.empty?
+    session[:message] = "#{search_term.to_s} not found." 
+    redirect '/'
   end
-
-  @contacts = filtered_book
-  erb(:home)
-end
-
-post '/reset' do
   
+  # Re-render since redirect clears instance variables
+  erb(:home)
 end
