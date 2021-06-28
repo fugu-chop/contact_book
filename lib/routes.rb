@@ -144,20 +144,21 @@ post '/search' do
   erb(:home)
 end
 
-post '/:contact/edit' do
+get '/:contact/edit' do
   contact_idx = params[:contact].to_i
   # Make values available for fields
   @contact_info = session[:contact_list].display_contacts[contact_idx][:details]
+  erb(:contact)
+end
 
-  p request.path_info
-
-  # if valid_name?(@contact_info[:name]) && valid_phone_num?(@contact_info[:phone_number]) &&
-    #  valid_address?(@contact_info[:address])
+post '/:contact/edit' do
+  if valid_name?(@contact_info[:name]) && valid_phone_num?(@contact_info[:phone_number]) &&
+     valid_address?(@contact_info[:address])
     
     # Need logic here
 
-    # session[:message] = "Contact for #{@contact_info[:name]} successfully updated."
-    # redirect '/'
-  # end
+    session[:message] = "Contact for #{@contact_info[:name]} successfully updated."
+    redirect '/'
+  end
   erb(:contact)
 end
