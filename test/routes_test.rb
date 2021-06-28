@@ -95,7 +95,9 @@ class AppTest < Minitest::Test
 
   def test_create_multiple_valid_contact
     get '/', {}, admin_session
-    post '/new', { name: 'Albert', phone_num: '0421345678', address: '123 Lazy St, The Bog', categories: 'Lazy Boyz, Cool Kids' }
+    post '/new',
+         { name: 'Albert', phone_num: '0421345678', address: '123 Lazy St, The Bog',
+           categories: 'Lazy Boyz, Cool Kids' }
 
     assert_equal(302, last_response.status)
     assert_instance_of(Book, session[:contact_list])
@@ -131,11 +133,15 @@ class AppTest < Minitest::Test
 
   def test_delete_contact
     get '/', {}, admin_session
-    post '/new', { name: 'Albert', phone_num: '0421345678', address: '123 Lazy St, The Bog', categories: 'Lazy Boyz, Cool Kids' }
-    post '/new', { name: 'Crimbolio', phone_num: '0421345678', address: '123 Lazy St, The Bog', categories: 'Lazy Boyz, Cool Kids' }
+    post '/new',
+         { name: 'Albert', phone_num: '0421345678', address: '123 Lazy St, The Bog',
+           categories: 'Lazy Boyz, Cool Kids' }
+    post '/new',
+         { name: 'Crimbolio', phone_num: '0421345678', address: '123 Lazy St, The Bog',
+           categories: 'Lazy Boyz, Cool Kids' }
 
     post '/1/delete'
-    
+
     assert_equal(302, last_response.status)
     assert_equal(1, session[:contact_list].display_contacts.size)
     assert_equal('Crimbolio deleted from contacts.', session[:message])
@@ -144,9 +150,9 @@ class AppTest < Minitest::Test
   def test_valid_search
     get '/', {}, admin_session
     post '/new',
-        { name: 'Albert', phone_num: '0421345678', address: '123 Lazy St, The Bog', categories: 'Cool Kids' }
+         { name: 'Albert', phone_num: '0421345678', address: '123 Lazy St, The Bog', categories: 'Cool Kids' }
     post '/new',
-        { name: 'Crimbolio', phone_num: '0421345678', address: '123 Lazy St, The Bog', categories: 'Lazy Boyz' }
+         { name: 'Crimbolio', phone_num: '0421345678', address: '123 Lazy St, The Bog', categories: 'Lazy Boyz' }
     post '/search', { search_name: 'boyz' }
 
     assert_equal(200, last_response.status)
@@ -157,9 +163,9 @@ class AppTest < Minitest::Test
   def test_invalid_search
     get '/', {}, admin_session
     post '/new',
-        { name: 'Albert', phone_num: '0421345678', address: '123 Lazy St, The Bog', categories: 'Cool Kids' }
+         { name: 'Albert', phone_num: '0421345678', address: '123 Lazy St, The Bog', categories: 'Cool Kids' }
     post '/search', { search_name: 'boyz' }
-    
+
     assert_equal(302, last_response.status)
     assert_includes(session[:message], "The 'boyz' search term was not found.")
     refute_includes(last_response.body, 'boyz')
