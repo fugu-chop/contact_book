@@ -27,6 +27,10 @@ helpers do
 
     value.flatten.join(', ')
   end
+
+  def display_action
+    request.path_info.split('/').last.capitalize
+  end
 end
 
 def valid_login?(username, password)
@@ -141,5 +145,19 @@ post '/search' do
 end
 
 post '/:contact/edit' do
+  contact_idx = params[:contact].to_i
+  # Make values available for fields
+  @contact_info = session[:contact_list].display_contacts[contact_idx][:details]
+
+  p request.path_info
+
+  # if valid_name?(@contact_info[:name]) && valid_phone_num?(@contact_info[:phone_number]) &&
+    #  valid_address?(@contact_info[:address])
+    
+    # Need logic here
+
+    # session[:message] = "Contact for #{@contact_info[:name]} successfully updated."
+    # redirect '/'
+  # end
   erb(:contact)
 end

@@ -1,19 +1,20 @@
-<form method='post' action='/new'>
-  <h3>Add new contact</h3>
+<%# <%= request.path_info %>
+<form method='post' action='<%= request.path_info %>'>
+  <h3><%= display_action %> contact</h3>
   <div>
     <label for='name'>First name: </label>
-    <input name='name' value='<%= params[:name] %>'>
+    <input name='name' value='<%= params[:name] || @contact_info[:name]  if @contact_info %>'>
     <br/>
-    <label for='phone_num'>Phone number: </label>
-    <input name='phone_num' value='<%= params[:phone_num] || 'Please include area code' %>'>
+    <label for='phone_num'>Phone # (inc. area code): </label>
+    <input name='phone_num' value='<%= params[:phone_num] || @contact_info[:phone_number] if @contact_info %>'>
     <br/>
     <label for='address'>Address: </label>
-    <input name='address' value='<%= params[:address] %>'>
+    <input name='address' value='<%= params[:address] || @contact_info[:address] if @contact_info %>' >
     <br/>
     <label for='categories'>Categories: </label>
-    <input name='categories' value='<%= params[:categories] %>'>
+    <input name='categories' value='<%= params[:categories] || @contact_info[:categories] if @contact_info %>'>
     <br/>
-    <button type='submit'>Create contact</button>
+    <button type='submit'><%= display_action %> contact</button>
   </div>
 </form>
 <br/>
