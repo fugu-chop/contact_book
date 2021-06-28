@@ -15,7 +15,7 @@ class Book
     @contacts[generate_contact_id] = { details: Contact.new(name, phone_num, address, category).to_s }
   end
 
-  def edit_contact(id, name, phone_num, address, *category)
+  def edit_contact(id, name, phone_num, address, category)
     @contacts[id] = { details: Contact.new(name, phone_num, address, category).to_s }
   end
 
