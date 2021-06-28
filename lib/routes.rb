@@ -98,7 +98,7 @@ end
 get '/new' do
   @list = {}
   validate_login_status
-  erb(:new_contact)
+  erb(:contact)
 end
 
 post '/new' do
@@ -113,7 +113,7 @@ post '/new' do
 
   status 422
   session[:message] = 'Invalid field detected! Please check and try again.'
-  erb(:new_contact)
+  erb(:contact)
 end
 
 post '/:contact/delete' do
@@ -141,5 +141,5 @@ post '/search' do
 end
 
 post '/:contact/edit' do
-  erb(:new_contact)
+  erb(:contact)
 end
