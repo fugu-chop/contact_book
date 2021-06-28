@@ -75,7 +75,7 @@ class AppTest < Minitest::Test
 
     assert_equal(200, last_response.status)
     assert_equal('text/html;charset=utf-8', last_response['Content-Type'])
-    assert_includes(last_response.body, "<input name='phone_num'")
+    assert_includes(last_response.body, "New contact")
   end
 
   def test_create_valid_contact
@@ -169,5 +169,16 @@ class AppTest < Minitest::Test
     assert_equal(302, last_response.status)
     assert_includes(session[:message], "The 'boyz' search term was not found.")
     refute_includes(last_response.body, 'boyz')
+  end
+
+  def test_edit
+    get '/', {}, admin_session
+    post '/new',
+         { name: 'Albert', phone_num: '0421345678', address: '123 Lazy St, The Bog', categories: 'Cool Kids' }
+    get '/0/edit'
+
+    assert_equal(200, last_response.status)
+    assert_equal('text/html;charset=utf-8', last_response['Content-Type'])
+    assert_includes(last_response.body, "Edit contact")
   end
 end
