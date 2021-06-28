@@ -49,6 +49,10 @@ def valid_address?(address)
   address.match(/\D/) && address.match(/\d/)
 end
 
+def valid_input?(name, phone_num, address)
+  valid_name?(name) && valid_phone_num?(phone_num) && valid_address?(address)
+end
+
 def validate_login_status
   return if session[:login]
 
@@ -108,8 +112,7 @@ end
 post '/new' do
   @categories = params[:categories].split(',')
 
-  if valid_name?(params[:name]) && valid_phone_num?(params[:phone_num]) &&
-     valid_address?(params[:address])
+  if valid_input?(params[:name], params[:phone_num], params[:address])
     session[:contact_list].add_contact(params[:name], params[:phone_num], params[:address], @categories)
     session[:message] = "Contact for #{params[:name]} successfully created."
     redirect '/'
@@ -152,13 +155,17 @@ get '/:contact/edit' do
 end
 
 post '/:contact/edit' do
-  if valid_name?(@contact_info[:name]) && valid_phone_num?(@contact_info[:phone_number]) &&
-     valid_address?(@contact_info[:address])
-    
-    # Need logic here
+  contact_idx = params[:contact].to_i
+  @contact_info = session[:contact_list].display_contacts[contact_idx][:details]
+  
+  if valid_input?(params[:name], params[:phone_num], params[:address])
+    # session[:contact_list].add_contact(params[:name], params[:phone_num], params[:address], @categories)
 
     session[:message] = "Contact for #{@contact_info[:name]} successfully updated."
     redirect '/'
   end
+  
+  status 422
+  session[:message] = 'Invalid field detected! Please check and try again.'
   erb(:contact)
 end
