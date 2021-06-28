@@ -159,7 +159,7 @@ post '/:contact/edit' do
   @contact_info = session[:contact_list].display_contacts[contact_idx][:details]
   
   if valid_input?(params[:name], params[:phone_num], params[:address])
-    # session[:contact_list].add_contact(params[:name], params[:phone_num], params[:address], @categories)
+    session[:contact_list].edit_contact(contact_idx, params[:name], params[:phone_num], params[:address], @categories)
 
     session[:message] = "Contact for #{@contact_info[:name]} successfully updated."
     redirect '/'
