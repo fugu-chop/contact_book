@@ -103,6 +103,8 @@ class AppTest < MiniTest::Test
 
     assert_raises(ArgumentError) do
       timmy.edit_contact('Jimmy', '0404040404', '23 King Street, Fitzroy, Victoria, 3065', 'crazy', 'lazy')
+      timmy.edit_contact(2.0, 'Jimmy', '0404040404', '23 King Street, Fitzroy, Victoria, 3065', 'crazy', 'lazy')
+      timmy.edit_contact(1, 'Jimmy', '0404040404', '23 King Street, Fitzroy, Victoria, 3065', 'crazy', 'lazy')
     end
   end
 end
