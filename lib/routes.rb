@@ -12,6 +12,7 @@ Dotenv.load
 
 configure do
   enable(:sessions)
+  # set for local testing purposes
   set(:session_secret, 'abc')
   # set(:session_secret, ENV['SECRET'])
   set(:views, File.expand_path('../views', __dir__))
@@ -177,4 +178,9 @@ post '/:contact/edit' do
   status 422
   session[:message] = 'Invalid field detected! Please check and try again.'
   erb(:contact)
+end
+
+not_found do
+  session[:message] = 'That page was not found!'
+  redirect '/'
 end
