@@ -15,7 +15,7 @@ class Book
     @contacts[generate_contact_id] = { details: Contact.new(name, phone_num, address, category).to_s }
   end
 
-  def edit_contact(id, name, phone_num, address, category)
+  def edit_contact(id, name, phone_num, address, *category)
     @contacts[id] = { details: Contact.new(name, phone_num, address, category).to_s }
   end
 
@@ -45,7 +45,7 @@ end
 class Contact
   attr_accessor :name, :phone_number, :address, :category
 
-  def initialize(name, phone_num, address, category)
+  def initialize(name, phone_num, address, *category)
     @contact = { name: name, phone_number: phone_num, address: address, category: category.flatten }
     @name = name
     @phone_number = phone_num
