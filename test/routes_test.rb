@@ -217,4 +217,11 @@ class AppTest < Minitest::Test
     assert_equal('Albort', session[:contact_list].display_contacts[0][:details][:name])
     assert_equal('0421345679', session[:contact_list].display_contacts[0][:details][:phone_number])
   end
+
+  def test_redirects
+    get '/random_link', {}, admin_session
+
+    assert_equal(302, last_response.status)
+    assert_equal('That page was not found!', session[:message])
+  end
 end
