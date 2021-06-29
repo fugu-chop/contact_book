@@ -83,4 +83,26 @@ class AppTest < MiniTest::Test
     assert_equal(1, y.size)
     assert_equal(1, y.first[:id])
   end
+
+  def test_valid_edit
+    timmy = Book.new('Timmy')
+    timmy.add_contact('James', '0404040404', '23 King Street, Fitzroy, Victoria, 3065', 'crazy', 'lazy')
+    timmy.add_contact('Yimby', '0414048404', '10 Flippy Street, Northcote, Victoria, 3070')
+    timmy.edit_contact(1, 'Yomby', '0414048405', '10 Flippy Street, Northcote, Victoria, 3070')
+
+    assert_equal('Yomby', timmy.display_contacts[1][:details][:name])
+    assert_equal('James', timmy.display_contacts[0][:details][:name])
+    assert_equal('0414048405', timmy.display_contacts[1][:details][:phone_number])
+    assert_equal('0404040404', timmy.display_contacts[0][:details][:phone_number])
+    assert_nil(timmy.display_contacts[2])
+  end
+
+  def test_invalid_edit
+    timmy = Book.new('Timmy')
+    timmy.add_contact('James', '0404040404', '23 King Street, Fitzroy, Victoria, 3065', 'crazy', 'lazy')
+
+    assert_raises(ArgumentError) do
+      timmy.edit_contact('Jimmy', '0404040404', '23 King Street, Fitzroy, Victoria, 3065', 'crazy', 'lazy')
+    end
+  end
 end
