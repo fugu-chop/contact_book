@@ -171,7 +171,7 @@ class AppTest < Minitest::Test
     refute_includes(last_response.body, 'boyz')
   end
 
-  def test_edit
+  def test_edit_page_view
     get '/', {}, admin_session
     post '/new',
          { name: 'Albert', phone_num: '0421345678', address: '123 Lazy St, The Bog', categories: 'Cool Kids' }
@@ -180,5 +180,41 @@ class AppTest < Minitest::Test
     assert_equal(200, last_response.status)
     assert_equal('text/html;charset=utf-8', last_response['Content-Type'])
     assert_includes(last_response.body, "Edit contact")
+  end
+
+  def test_edit_page_view_invalid
+    get '/', {}, admin_session
+    post '/new',
+         { name: 'Albert', phone_num: '0421345678', address: '123 Lazy St, The Bog', categories: 'Cool Kids' }
+    get '/hello/edit'
+
+    assert_equal(302, last_response.status)
+    assert_equal('Invalid contact. Please check and try again.', session[:message])
+    assert_equal('Albert', session[:contact_list].display_contacts[0][:details][:name])
+  end
+
+  def test_invalid_edit_field
+    get '/', {}, admin_session
+    post '/new',
+         { name: 'Albert', phone_num: '0421345678', address: '123 Lazy St, The Bog', categories: 'Cool Kids' }
+    post '/0/edit',
+         { name: 'Albort', phone_num: '04219', address: '123 Lazy St, The Bog', categories: 'Cool Kids' }
+
+    assert_equal(422, last_response.status)
+    assert_includes(last_response.body, 'Invalid field detected! Please check and try again.')
+    assert_equal('Albert', session[:contact_list].display_contacts[0][:details][:name])
+  end
+
+  def test_valid_edit
+    get '/', {}, admin_session
+    post '/new',
+         { name: 'Albert', phone_num: '0421345678', address: '123 Lazy St, The Bog', categories: 'Cool Kids' }
+    post '/0/edit',
+         { name: 'Albort', phone_num: '0421345679', address: '123 Lazy St, The Bog', categories: 'Cool Kids' }
+    
+    assert_equal(302, last_response.status)
+    assert_equal('Contact for Albort successfully updated.', session[:message])
+    assert_equal('Albort', session[:contact_list].display_contacts[0][:details][:name])
+    assert_equal('0421345679', session[:contact_list].display_contacts[0][:details][:phone_number])
   end
 end
