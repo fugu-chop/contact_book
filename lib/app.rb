@@ -16,7 +16,7 @@ class Book
   end
 
   def edit_contact(id, name, phone_num, address, *category)
-    raise ArgumentError if !id.instance_of?(Integer)
+    raise ArgumentError if !id.instance_of?(Integer) || @contacts[id].nil?
     @contacts[id] = { details: Contact.new(name, phone_num, address, category).to_s }
   end
 
