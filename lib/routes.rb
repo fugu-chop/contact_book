@@ -69,6 +69,10 @@ def display_filtered_contacts(filtered_obj)
   filtered_book
 end
 
+def valid_contact_id?(id)
+  id.to_i.to_s == id
+end
+
 get '/' do
   validate_login_status
 
@@ -126,7 +130,7 @@ end
 post '/:contact/delete' do
   idx = params[:contact].to_i
 
-  deleted_contact = session[:contact_list].delete_contact(idx)
+  deleted_contact = session[:contact_list].delete_contact(idx) 
   session[:message] = "#{deleted_contact[:details][:name]} deleted from contacts."
   redirect '/'
 end
@@ -148,6 +152,11 @@ post '/search' do
 end
 
 get '/:contact/edit' do
+  unless valid_contact_id?(params[:contact])
+    session[:message] = 'Invalid contact. Please check and try again.'
+    redirect '/'
+  end
+  
   contact_idx = params[:contact].to_i
   # Make values available for fields
   @contact_info = session[:contact_list].display_contacts[contact_idx][:details]
@@ -161,7 +170,7 @@ post '/:contact/edit' do
 
   if valid_input?(params[:name], params[:phone_num], params[:address])
     session[:contact_list].edit_contact(contact_idx, params[:name], params[:phone_num], params[:address], @categories)
-    session[:message] = "Contact for #{@contact_info[:name]} successfully updated."
+    session[:message] = "Contact for #{params[:name]} successfully updated."
     redirect '/'
   end
 
