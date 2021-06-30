@@ -123,6 +123,12 @@ post '/new' do
 
   status 422
   session[:message] = 'Invalid field detected! Please check and try again.'
+  @contact_info = { 
+    name: params[:name], 
+    phone_num: params[:phone_num], 
+    address: params[:address], 
+    categories: @categories
+  }
   erb(:contact)
 end
 
