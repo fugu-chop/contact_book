@@ -11,6 +11,8 @@ Users are able to:
 4. Filter for contact names and categories
 
 ### How to run
+This application can be accessed at https://contact-book-dw.herokuapp.com/
+
 1. Clone the repo locally
 2. Make sure you have the `bundle` gem installed.
 2. Run `bundle install` in your CLI
