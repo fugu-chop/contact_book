@@ -12,9 +12,7 @@ Dotenv.load
 
 configure do
   enable(:sessions)
-  # set for local testing purposes
-  set(:session_secret, 'abc')
-  # set(:session_secret, ENV['SECRET'])
+  set(:session_secret, ENV['SECRET'])
   set(:views, File.expand_path('../views', __dir__))
 end
 
