@@ -11,7 +11,7 @@
     <input name='address' value='<%= params[:address] || @contact_info[:address] if @contact_info %>' >
     <br/>
     <label for='categories'>Categories: </label>
-    <input name='categories' value='<%= params[:categories] || @contact_info[:categories] if @contact_info %>'>
+    <input name='categories' value='<%= params[:categories] || @contact_info[:category].join(',') if @contact_info %>'>
     <br/>
     <button type='submit'><%= display_action %> contact</button>
   </div>
